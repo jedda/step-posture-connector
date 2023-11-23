@@ -2,7 +2,7 @@
 
 Step Posture Connector (`step-posture-connector`) is a middleware tool designed to assist [`step-ca`](https://github.com/smallstep/certificates) with posture information during an ACME device attestation process.
 
-It was originally born to leverage [Managed Device Attestation for Apple devices](https://support.apple.com/en-au/guide/deployment/dep28afbde6a/web) in a [`step-ca`](https://github.com/smallstep/certificates) and Jamf environment as a control to ensure that Apple attested ACME certificates are securely issued to approved, managed and compliant devices. It also supports flat files (JSON, CSV) and plans to incorporate other MDM providers such as Intune, Kandji and Mosyle.
+It was originally born to leverage [Managed Device Attestation for Apple devices](https://support.apple.com/en-au/guide/deployment/dep28afbde6a/web) in a [`step-ca`](https://github.com/smallstep/certificates) and Jamf Pro environment as a control to ensure that Apple attested ACME certificates are securely issued to approved, managed and compliant devices. It also supports flat files (JSON, CSV) and plans to incorporate other MDM providers such as Intune, Kandji and Mosyle.
 
 Step Posture Connector utilises the [webhooks](https://smallstep.com/docs/step-ca/webhooks/) functionality within [`step-ca`](https://github.com/smallstep/certificates) to allow/deny and enrich certificates with additional data during the order process.
 
@@ -118,7 +118,7 @@ The following additional configuration variables apply when using the `file` pro
 | `FILE_PATH` | required | Specifies the path to a file containing device data. |
 | `FILE_TYPE` | required | Specifies the file type. Currently needs to be one of `csv` or `json`. |
 
-### Provider Configuration - Jamf (`jamf`)
+### Provider Configuration - Jamf Pro (`jamf`)
 
 The following additional configuration variables apply when using the `jamf` provider. You'll need to [create an appropriate API Role & Client in Jamf](https://learn.jamf.com/bundle/jamf-pro-documentation-current/page/API_Roles_and_Clients.html) to generate the ID and Secret. Role privileges required are `Read Mobile Devices` and `Read Computers` depending on which devices you are targeting.
 
