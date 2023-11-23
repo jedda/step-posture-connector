@@ -1,4 +1,4 @@
-## Step Posture Connector
+# Step Posture Connector
 
 Step Posture Connector (step-posture-connector) is a middleware tool designed to assist [step-ca](https://github.com/smallstep/certificates) with posture information during an ACME device attestation process.
 
@@ -8,7 +8,7 @@ Step Posture Connector utilises the [webhooks](https://smallstep.com/docs/step-c
 
 This project is licensed under the [terms of the MIT license](https://github.com/jedda/step-posture-connector/blob/main/LICENSE).
 
-#### Protection of the device-attest-01 challenge
+## Protection of the device-attest-01 challenge
 
 The `device-attest-01` ACME challenge can pose significant a security risk in production when exposed to the internet without further additional controls in place. Without external account binding or another authorisation method, any device that can satisfy the `device-attest-01` challenge can enroll in your PKI simply by knowing the ACME directory URI. In the case of Apple's Managed Device Attestation – when Apple provides attestation for a device, they are attesting that is is a genuine Apple device with specific identifiers, but not that it belongs to or is assigned to your organisation. Step Posture Connector helps you gatekeep this in a few ways:
 
@@ -18,7 +18,7 @@ The `device-attest-01` ACME challenge can pose significant a security risk in pr
 
 See Usage Philosophy & Considerations below more details on using `step-posture-connector` to secure resources or services.
 
-#### Providers
+## Providers
 
 Below is the list of currently supported providers and  a brief explanation of what they do:
 
@@ -29,7 +29,7 @@ Below is the list of currently supported providers and  a brief explanation of w
 
 Ideally, next steps will include addition of new providers for posture & data enrichment. Happy to take feedback, but would suggest Intune, Kandji, Mosyle & Addigy as logical next steps.
 
-#### Security
+## Security
 
 **step-posture-connector** supports the following to ensure a secure connection between itself and `step-ca`:
 
@@ -37,34 +37,34 @@ Ideally, next steps will include addition of new providers for posture & data en
 - HMAC verification of Smallstep request via provided `step-ca` headers
 - Optional mutual TLS via client certificate verification from `step-ca`
 
-### Getting started
+## Getting started
 
 I've started creating a [Setup Guide](https://github.com/jedda/step-posture-connector/wiki/Setup-Guide) which should walk you through the steps of setting up **step-posture-connector** and starting to lookup and authorise attested devices. It's currently a little rough around the edges, but should be enough to get you started.
 
 If you'd like to report any security issues, [send me a DM on the MacAdmins slack](https://macadmins.slack.com/team/U1QABUHAR
 ).
 
-### Deployment
+## Deployment
 
-##### Docker image (reccomended)
+### Docker image (reccomended)
 
 Deployment via Docker is probably most simple and reccomended - particularly if you are already [running step-ca this way](https://hub.docker.com/r/smallstep/step-ca). All config can be done via environment variables as per the Configuration section below and a [docker-compose file](https://github.com/jedda/step-posture-connector/blob/main/docker-compose.yml) is included in this repository.
 
 Releases of **step-posture-connector** [are available on Docker Hub as `jedda/step-posture-connector`](https://hub.docker.com/repository/docker/jedda/step-posture-connector/).
 
-##### Standalone binaries
+### Standalone binaries
 
 You can run **step-posture-connector** as a standalone binary. When doing so, configuration is easiest via a .env file in it's working directory or via standard environment variables as per the Configuration section below.
 
 Releases are [available for major platforms as compiled binaries here](https://github.com/jedda/step-posture-connector/releases).
 
-##### Building `step-posture-connector`
+### Building `step-posture-connector`
 
 You can of course choose to download and build your own binaries or docker containers. **step-posture-connector** is [written in Go](https://go.dev/project) and can be run with a simple `go run main.go`.
 
 A [Dockerfile](https://github.com/jedda/step-posture-connector/blob/main/Dockerfile) is also included should you wish to roll your own container variants.
 
-### Webhooks
+## Webhooks
 
 Currently, there is a single webhook endpoint supported by **step-posture-connector**:
 
@@ -81,7 +81,7 @@ Note that Jamf lookup will default to `mode=mobiledevice` if a mode is not defin
 
 The file provider ignores the `mode` query and treats every device type as the same.
 
-### Compliance Group Membership
+## Compliance Group Membership
 
 Where supported by the MDM provider, `step-posture-connector` can utilise Compliance Groups to ensure device posture baseline prior to certificate issuance.
 
@@ -90,11 +90,11 @@ This can be used to ensure that devices meet certain compliance criteria before 
 Where a group is defined, `step-posture-connector` will only allow a certificate to be issued if a device is a member of this group, and will deny other requests.
 
 
-### Configuration
+## Configuration
 
 Configuration is performed via environment variables; able to be supplied in the shell, via a .env file or via Docker when using the supplied Docker image (reccomended).`step-posture-connector` will validate configuration on start – including bootstrapping and checking your selected provider (although the error messages arent super friendly or verbose - something to improve on later).
 
-#### Global Configuration
+### Global Configuration
 
 | Environment Variable | Required | Description |
 | --- |  --- | ----------- |
@@ -109,7 +109,7 @@ Configuration is performed via environment variables; able to be supplied in the
 | `LOGGING_LEVEL` | optional | Specifies the verbosity level of logging. needs to be one of `0` (allow/deny only), `1` (verbose), or `2` (debug). Defaults to `0`. |
 | `PORT` | optional | Specifies which TCP port the HTTPS webserver will start on. Defaults to `9443`. |
 
-#### Provider Configuration - File (`file`)
+### Provider Configuration - File (`file`)
 
 The following additional configuration variables apply when using the `file` provider.
 
@@ -118,7 +118,7 @@ The following additional configuration variables apply when using the `file` pro
 | `FILE_PATH` | required | Specifies the path to a file containing device data. |
 | `FILE_TYPE` | required | Specifies the file type. Currently needs to be one of `csv` or `json`. |
 
-#### Provider Configuration - Jamf (`jamf`)
+### Provider Configuration - Jamf (`jamf`)
 
 The following additional configuration variables apply when using the `jamf` provider. You'll need to [create an appropriate API Role & Client in Jamf](https://learn.jamf.com/bundle/jamf-pro-documentation-current/page/API_Roles_and_Clients.html) to generate the ID and Secret. Role privileges required are `Read Mobile Devices` and `Read Computers` depending on which devices you are targeting.
 
@@ -132,7 +132,7 @@ The following additional configuration variables apply when using the `jamf` pro
 | `JAMF_DEVICE_ENRICH` | optional | Specifies if user enrichment data should be returned to `step-ca` for Mobile Devices. Needs to be `0` or `1`. Defaults to `0`. |
 | `JAMF_COMPUTER_ENRICH` | optional | Specifies if user enrichment data should be returned to `step-ca` for Computers. Needs to be `0` or `1`. Defaults to `0`.|
 
-### Usage Philosophy & Considerations
+## Usage Philosophy & Considerations
 
 When using this tool, it's important to consider the security concepts of identification, authentication and authorisation and how they apply to any resources being accessed with issued certificates. 
 
@@ -141,7 +141,7 @@ I've [written about this in further depth as part of a technical explortation in
 How you use the device attestation certificates facilitated by `step-ca` and Step Posture Connector is entirtely up to you, however 802.1x & VPN (& mTLS on iOS) are the obvious usage candidates. For the most part, certificates enriched with a user identity can identify a user and even stand in as an authentication method, but they likely don't authorise a user against specific services nor attest to the current status of that user. Where possible, take care to validate the certificate and any user identity SANs during consumption by services to ensure user posture alongside that of the device.
 
 
-#### iOS vs macOS Use Cases
+### iOS vs macOS Use Cases
 
 Due to differences in how keychains are implemented on iOS vs macOS, there are currently some significant differences in how hardware bound certficates can be utilised on each platform.
 
@@ -149,7 +149,7 @@ On macOS, the issued cert gets stored in the data protection keychain which mean
 
 On iOS this is a slightly better story, as the issued cert is stored in the Apple keychain access group which makes it available to Safari (and other Apple apps) for use as an mTLS client certificate as well as the profile payloads (801.1x and VPN) available on macOS.
 
-#### Attested Device Permanent Identifiers
+### Attested Device Permanent Identifiers
 
 Under my testing in the current implementations of Managed Device Attestation on macOS devices (Apple Silicon & Intel with T2, Sonoma 14.1), the following are returned as permanent identifier options by Apple's attestation servers:
 
