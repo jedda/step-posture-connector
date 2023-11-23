@@ -1,0 +1,32 @@
+# https://github.com/jedda/step-posture-connector
+# Example docker-compose.yml for step-posture-connector
+
+version: '3.8'
+
+services:
+  step-posture-connector:
+    image: jedda/step-posture-connector:latest
+    container_name: step-posture-connector
+    restart: unless-stopped
+    environment:
+      - PROVIDER=jamf
+      - ENABLE_MTLS=1
+      - PORT=9443
+      - LOGGING_LEVEL=1
+      - TIMEOUT=15
+      - WEBHOOK_IDS=8bb20d58-3c4a-4a61-a25b-f7d794293a1b,29003ea8-baeb-444c-bade-441d723422ef
+      - WEBHOOK_SECRETS=c2VjcmV0MQ==,c2VjcmV0Mg==
+      - TLS_CERT_PATH=/etc/step-posture-connector/server.pem
+      - TLS_KEY_PATH=/etc/step-posture-connector/server.key
+      - TLS_CA_PATH=/etc/step-posture-connector/ca.pem
+      - JAMF_BASE_URL=https://yourjss.jamfcloud.com
+      - JAMF_CLIENT_ID=jamf-oauth-id
+      - JAMF_CLIENT_SECRET=jamf-oauth-secret
+      - JAMF_DEVICE_GROUP=Compliant iPads
+      - JAMF_COMPUTER_GROUP=Compliant Macs
+      - JAMF_DEVICE_ENRICH=1
+      - JAMF_COMPUTER_ENRICH=1
+    volumes:
+      - "/docker/etc/step-posture-connector:/etc/step-posture-connector"
+    ports:
+      - "9443:9443"

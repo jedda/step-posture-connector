@@ -1,10 +1,10 @@
 # Step Posture Connector
 
-Step Posture Connector (`step-posture-connector`) is a middleware tool designed to assist [step-ca](https://github.com/smallstep/certificates) with posture information during an ACME device attestation process.
+Step Posture Connector (`step-posture-connector`) is a middleware tool designed to assist [`step-ca`](https://github.com/smallstep/certificates) with posture information during an ACME device attestation process.
 
-It was originally born to leverage [Managed Device Attestation for Apple devices](https://support.apple.com/en-au/guide/deployment/dep28afbde6a/web) in a [step-ca](https://github.com/smallstep/certificates) and Jamf environment as a control to ensure that Apple attested ACME certificates are securely issued to approved, managed and compliant devices. It also supports flat files (JSON, CSV) and plans to incorporate other MDM providers such as Intune, Kandji and Mosyle.
+It was originally born to leverage [Managed Device Attestation for Apple devices](https://support.apple.com/en-au/guide/deployment/dep28afbde6a/web) in a [`step-ca`](https://github.com/smallstep/certificates) and Jamf environment as a control to ensure that Apple attested ACME certificates are securely issued to approved, managed and compliant devices. It also supports flat files (JSON, CSV) and plans to incorporate other MDM providers such as Intune, Kandji and Mosyle.
 
-Step Posture Connector utilises the [webhooks](https://smallstep.com/docs/step-ca/webhooks/) functionality within [step-ca](https://github.com/smallstep/certificates) to allow/deny and enrich certificates with additional data during the order process.
+Step Posture Connector utilises the [webhooks](https://smallstep.com/docs/step-ca/webhooks/) functionality within [`step-ca`](https://github.com/smallstep/certificates) to allow/deny and enrich certificates with additional data during the order process.
 
 This project is licensed under the [terms of the MIT license](LICENSE).
 
@@ -13,7 +13,7 @@ This project is licensed under the [terms of the MIT license](LICENSE).
 The `device-attest-01` ACME challenge can pose significant a security risk in production when exposed to the internet without further additional controls in place. Without external account binding or another authorisation method, any device that can satisfy the `device-attest-01` challenge can enroll in your PKI simply by knowing the ACME directory URI. In the case of Apple's Managed Device Attestation – when Apple provides attestation for a device, they are attesting that is is a genuine Apple device with specific identifiers, but not that it belongs to or is assigned to your organisation. Step Posture Connector helps you gatekeep this in a few ways:
 
 - Attested permanent identifiers (UDIDs & serial numbers - see below) are matched against device records to authorise them as a managed device
-- Lookups can return enriched data about devices and users that can be included in and further validated by logic within your `step-ca	` templates
+- Lookups can return enriched data about devices and users that can be included in and further validated by logic within your [`step-ca`](https://github.com/smallstep/certificates) templates
 - Optionally; devices can also be required to have membership of a specific compliance group within MDM. In the case of Jamf smart groups, this can be used to require up to date inventory check-in, OS versions, or any other attribute to to gatekeep certificate issuance - see Compliance Groups below.
 
 See Usage Philosophy & Considerations below more details on using `step-posture-connector` to secure resources or services.
@@ -31,11 +31,11 @@ Ideally, next steps will include addition of new providers for posture & data en
 
 ## Security
 
-`step-posture-connector` supports the following to ensure a secure connection between itself and `step-ca`:
+`step-posture-connector` supports the following to ensure a secure connection between itself and [`step-ca`](https://github.com/smallstep/certificates):
 
 - TLS version enforcement (v1.2 & above) and modern, secure server cipher suite selection
-- HMAC verification of Smallstep request via provided `step-ca` headers
-- Optional mutual TLS via client certificate verification from `step-ca`
+- HMAC verification of Smallstep request via provided [`step-ca`](https://github.com/smallstep/certificates) headers
+- Optional mutual TLS via client certificate verification from [`step-ca`](https://github.com/smallstep/certificates)
 
 ## Getting started
 
@@ -48,7 +48,7 @@ If you'd like to report any security issues, [send me a DM on the MacAdmins slac
 
 ### Docker image (reccomended)
 
-Deployment via Docker is probably most simple and reccomended - particularly if you are already [running step-ca this way](https://hub.docker.com/r/smallstep/step-ca). All config can be done via environment variables as per the Configuration section below and a [docker-compose file](docker-compose.yml) is included in this repository.
+Deployment via Docker is probably most simple and reccomended - particularly if you are already [running `step-ca` this way](https://hub.docker.com/r/smallstep/step-ca). All config can be done via environment variables as per the Configuration section below and a [docker-compose file](docker-compose.yml) is included in this repository.
 
 Releases of `step-posture-connector` [are available on Docker Hub as `jedda/step-posture-connector`](https://hub.docker.com/repository/docker/jedda/step-posture-connector).
 
@@ -70,14 +70,14 @@ Currently, there is a single webhook endpoint supported by `step-posture-connect
 
 - `/webhook/device-attest` 
 
-For each webhook you create in `step-ca`, it will generate and display a `Webhook ID` and `Webhook Secret`. You'll need to supply these using the `WEBHOOK_IDS` and `WEBHOOK_SECRETS` configuration variable below to initialise the webhook for use. For more information on how to do this, see the [Setup Guide](wiki/Setup-Guide).
+For each webhook you create in [`step-ca`](https://github.com/smallstep/certificates), it will generate and display a `Webhook ID` and `Webhook Secret`. You'll need to supply these using the `WEBHOOK_IDS` and `WEBHOOK_SECRETS` configuration variable below to initialise the webhook for use. For more information on how to do this, see the [Setup Guide](wiki/Setup-Guide).
 
 The webhook endpoint takes an optional `type` query string that may be needed depending what device you are targeting. At the moment this is required only by Jamf, as the API endpoints it uses to search and match iOS devices vs computers is different and **step-posture-connector** must be told which one is being requested. For Jamf, the webhook format should be as follows:
 
 - `/webhook/device-attest?mode=mobiledevice` for iOS devices
 - `/webhook/device-attest?mode=computer` for Mac computers
 
-Note that Jamf lookup will default to `mode=mobiledevice` if a mode is not defined, so only `mode=computer` is actually required to specifically target Macs. If you are using Jamf and want to target both iOS and Mac, youll need to create two different provisioners in *step-ca* - one for each platform with it's own appropriate webhook pointing at the correct mode.
+Note that Jamf lookup will default to `mode=mobiledevice` if a mode is not defined, so only `mode=computer` is actually required to specifically target Macs. If you are using Jamf and want to target both iOS and Mac, youll need to create two different provisioners in [`step-ca`](https://github.com/smallstep/certificates) - one for each platform with it's own appropriate webhook pointing at the correct mode.
 
 The file provider ignores the `mode` query and treats every device type as the same.
 
@@ -107,7 +107,7 @@ Configuration is performed via environment variables; able to be supplied in the
 | `TLS_CA_PATH` | required (with `ENABLE_MTLS `) | Specifies the file path of the PEM formatted CA to validate mTLS requests. |
 | `PORT` | optional | Specifies which TCP port the HTTPS webserver will start on. Defaults to `9443`. |
 | `LOGGING_LEVEL` | optional | Specifies the verbosity level of logging. needs to be one of `0` (allow/deny only), `1` (verbose), or `2` (debug). Defaults to `0`. |
-| `PORT` | optional | Specifies which TCP port the HTTPS webserver will start on. Defaults to `9443`. |
+| `TIMEOUT` | optional | A global timeout value used by providers for any HTTPS connections. Defaults to `10`. |
 
 ### Provider Configuration - File (`file`)
 
@@ -138,7 +138,7 @@ When using this tool, it's important to consider the security concepts of identi
 
 I've [written about this in further depth as part of a technical explortation into Managed Attestation for Apple devices](https://jedda.me/managed-device-attestation-a-technical-exploration/) which is worth a read if you want to better understand the concepts.
 
-How you use the device attestation certificates facilitated by `step-ca` and Step Posture Connector is entirtely up to you, however 802.1x & VPN (& mTLS on iOS) are the obvious usage candidates. For the most part, certificates enriched with a user identity can identify a user and even stand in as an authentication method, but they likely don't authorise a user against specific services nor attest to the current status of that user. Where possible, take care to validate the certificate and any user identity SANs during consumption by services to ensure user posture alongside that of the device.
+How you use the device attestation certificates facilitated by [`step-ca`](https://github.com/smallstep/certificates) and Step Posture Connector is entirely up to you, however 802.1x & VPN (& mTLS on iOS) are the obvious usage candidates. For the most part, certificates enriched with a user identity can identify a user and even stand in as an authentication method, but they likely don't authorise a user against specific services nor attest to the current status of that user. Where possible, take care to validate the certificate and any user identity SANs during consumption by services to ensure user posture alongside that of the device.
 
 
 ### iOS vs macOS Use Cases
