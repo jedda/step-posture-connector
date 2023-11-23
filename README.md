@@ -70,9 +70,9 @@ Currently, there is a single webhook endpoint supported by `step-posture-connect
 
 - `/webhook/device-attest` 
 
-For each webhook you create in [`step-ca`](https://github.com/smallstep/certificates), it will generate and display a `Webhook ID` and `Webhook Secret`. You'll need to supply these using the `WEBHOOK_IDS` and `WEBHOOK_SECRETS` configuration variable below to initialise the webhook for use. For more information on how to do this, see the [Setup Guide](wiki/Setup-Guide).
+For each webhook you create in [`step-ca`](https://github.com/smallstep/certificates), it will generate and display a `Webhook ID` and `Webhook Secret`. You'll need to supply these using the `WEBHOOK_IDS` and `WEBHOOK_SECRETS` configuration variable below to initialise the webhook for use. For more information on how to do this, see the [Setup Guide](https://github.com/jedda/step-posture-connector/wiki/Setup-Guide).
 
-The webhook endpoint takes an optional `type` query string that may be needed depending what device you are targeting. At the moment this is required only by Jamf, as the API endpoints it uses to search and match iOS devices vs computers is different and **step-posture-connector** must be told which one is being requested. For Jamf, the webhook format should be as follows:
+The webhook endpoint takes an optional `type` query string that may be needed depending what device you are targeting. At the moment this is required only by Jamf, as the API endpoints it uses to search and match iOS devices vs computers is different and `step-posture-connector` must be told which one is being requested. For Jamf, the webhook format should be as follows:
 
 - `/webhook/device-attest?mode=mobiledevice` for iOS devices
 - `/webhook/device-attest?mode=computer` for Mac computers
