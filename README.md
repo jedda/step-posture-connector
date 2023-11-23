@@ -1,12 +1,12 @@
 # Step Posture Connector
 
-Step Posture Connector (step-posture-connector) is a middleware tool designed to assist [step-ca](https://github.com/smallstep/certificates) with posture information during an ACME device attestation process.
+Step Posture Connector (`step-posture-connector`) is a middleware tool designed to assist [step-ca](https://github.com/smallstep/certificates) with posture information during an ACME device attestation process.
 
 It was originally born to leverage [Managed Device Attestation for Apple devices](https://support.apple.com/en-au/guide/deployment/dep28afbde6a/web) in a [step-ca](https://github.com/smallstep/certificates) and Jamf environment as a control to ensure that Apple attested ACME certificates are securely issued to approved, managed and compliant devices. It also supports flat files (JSON, CSV) and plans to incorporate other MDM providers such as Intune, Kandji and Mosyle.
 
 Step Posture Connector utilises the [webhooks](https://smallstep.com/docs/step-ca/webhooks/) functionality within [step-ca](https://github.com/smallstep/certificates) to allow/deny and enrich certificates with additional data during the order process.
 
-This project is licensed under the [terms of the MIT license](https://github.com/jedda/step-posture-connector/blob/main/LICENSE).
+This project is licensed under the [terms of the MIT license](LICENSE).
 
 ## Protection of the device-attest-01 challenge
 
@@ -31,7 +31,7 @@ Ideally, next steps will include addition of new providers for posture & data en
 
 ## Security
 
-**step-posture-connector** supports the following to ensure a secure connection between itself and `step-ca`:
+`step-posture-connector` supports the following to ensure a secure connection between itself and `step-ca`:
 
 - TLS version enforcement (v1.2 & above) and modern, secure server cipher suite selection
 - HMAC verification of Smallstep request via provided `step-ca` headers
@@ -39,7 +39,7 @@ Ideally, next steps will include addition of new providers for posture & data en
 
 ## Getting started
 
-I've started creating a [Setup Guide](https://github.com/jedda/step-posture-connector/wiki/Setup-Guide) which should walk you through the steps of setting up **step-posture-connector** and starting to lookup and authorise attested devices. It's currently a little rough around the edges, but should be enough to get you started.
+I've started creating a [Setup Guide](https://github.com/jedda/step-posture-connector/wiki/Setup-Guide) which should walk you through the steps of setting up `step-posture-connector` and starting to lookup and authorise attested devices. It's currently a little rough around the edges, but should be enough to get you started.
 
 If you'd like to report any security issues, [send me a DM on the MacAdmins slack](https://macadmins.slack.com/team/U1QABUHAR
 ).
@@ -48,29 +48,29 @@ If you'd like to report any security issues, [send me a DM on the MacAdmins slac
 
 ### Docker image (reccomended)
 
-Deployment via Docker is probably most simple and reccomended - particularly if you are already [running step-ca this way](https://hub.docker.com/r/smallstep/step-ca). All config can be done via environment variables as per the Configuration section below and a [docker-compose file](https://github.com/jedda/step-posture-connector/blob/main/docker-compose.yml) is included in this repository.
+Deployment via Docker is probably most simple and reccomended - particularly if you are already [running step-ca this way](https://hub.docker.com/r/smallstep/step-ca). All config can be done via environment variables as per the Configuration section below and a [docker-compose file](docker-compose.yml) is included in this repository.
 
-Releases of **step-posture-connector** [are available on Docker Hub as `jedda/step-posture-connector`](https://hub.docker.com/repository/docker/jedda/step-posture-connector/).
+Releases of `step-posture-connector` [are available on Docker Hub as `jedda/step-posture-connector`](https://hub.docker.com/repository/docker/jedda/step-posture-connector).
 
 ### Standalone binaries
 
-You can run **step-posture-connector** as a standalone binary. When doing so, configuration is easiest via a .env file in it's working directory or via standard environment variables as per the Configuration section below.
+You can run `step-posture-connector` as a standalone binary. When doing so, configuration is easiest via a .env file in it's working directory or via standard environment variables as per the Configuration section below.
 
 Releases are [available for major platforms as compiled binaries here](https://github.com/jedda/step-posture-connector/releases).
 
 ### Building `step-posture-connector`
 
-You can of course choose to download and build your own binaries or docker containers. **step-posture-connector** is [written in Go](https://go.dev/project) and can be run with a simple `go run main.go`.
+You can of course choose to download and build your own binaries or docker containers. `step-posture-connector` is [written in Go](https://go.dev/project) and can be run with a simple `go run main.go`.
 
-A [Dockerfile](https://github.com/jedda/step-posture-connector/blob/main/Dockerfile) is also included should you wish to roll your own container variants.
+A [Dockerfile](Dockerfile) is also included should you wish to roll your own container variants.
 
 ## Webhooks
 
-Currently, there is a single webhook endpoint supported by **step-posture-connector**:
+Currently, there is a single webhook endpoint supported by `step-posture-connector`:
 
 - `/webhook/device-attest` 
 
-For each webhook you create in `step-ca`, it will generate and display a `Webhook ID` and `Webhook Secret`. You'll need to supply these using the `WEBHOOK_IDS` and `WEBHOOK_SECRETS` configuration variable below to initialise the webhook for use. For more information on how to do this, see the [Setup Guide](https://github.com/jedda/step-posture-connector/wiki/Setup-Guide).
+For each webhook you create in `step-ca`, it will generate and display a `Webhook ID` and `Webhook Secret`. You'll need to supply these using the `WEBHOOK_IDS` and `WEBHOOK_SECRETS` configuration variable below to initialise the webhook for use. For more information on how to do this, see the [Setup Guide](wiki/Setup-Guide).
 
 The webhook endpoint takes an optional `type` query string that may be needed depending what device you are targeting. At the moment this is required only by Jamf, as the API endpoints it uses to search and match iOS devices vs computers is different and **step-posture-connector** must be told which one is being requested. For Jamf, the webhook format should be as follows:
 
