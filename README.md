@@ -159,6 +159,6 @@ Note that this "Device Provisioning UDID" is not the "Hardware UUID" (or UDID as
 
 When using MDM providers for matching, this means the Device Provisioning UDID isn't really a suitable candidate as a matching identifier, so for Jamf we currently support Device Serial Number only. I can't find a lot of documentation on this, so if i'm wrong here or there is a better way I'd love to be pointed in a better direction.
 
-### Questions, Issues & Discussions
+## Questions, Issues & Discussions
 
 Feel free to [start a discussion](https://github.com/jedda/step-posture-connector/discussions) or [create an issue](https://github.com/jedda/step-posture-connector/issues). You are also welcome to [DM me on the Mac Admins Slack](https://macadmins.slack.com/team/U1QABUHAR).
