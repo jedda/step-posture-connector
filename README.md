@@ -8,6 +8,8 @@ Step Posture Connector utilises the [webhooks](https://smallstep.com/docs/step-c
 
 This project is licensed under the [terms of the MIT license](LICENSE).
 
+*Note that whilst this open source tool is designed to work with `step-ca`, it is not supported or endorsed by [Smallstep](https://smallstep.com/) or the team behind `step-ca`.*
+
 ## Protection of the device-attest-01 challenge
 
 The `device-attest-01` ACME challenge can pose significant a security risk in production when exposed to the internet without further additional controls in place. Without external account binding or another authorisation method, any device that can satisfy the `device-attest-01` challenge can enroll in your PKI simply by knowing the ACME directory URI. In the case of Apple's Managed Device Attestation – when Apple provides attestation for a device, they are attesting that is is a genuine Apple device with specific identifiers, but not that it belongs to or is assigned to your organisation. Step Posture Connector helps you gatekeep this in a few ways:
