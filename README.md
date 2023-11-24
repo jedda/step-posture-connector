@@ -14,9 +14,9 @@ The `device-attest-01` ACME challenge can pose significant a security risk in pr
 
 - Attested permanent identifiers (UDIDs & serial numbers - see below) are matched against device records to authorise them as a managed device
 - Lookups can return enriched data about devices and users that can be included in and further validated by logic within your [`step-ca`](https://github.com/smallstep/certificates) templates
-- Optionally; devices can also be required to have membership of a specific compliance group within MDM. In the case of Jamf smart groups, this can be used to require up to date inventory check-in, OS versions, or any other attribute to to gatekeep certificate issuance - see Compliance Groups below.
+- Optionally; devices can also be required to have membership of a specific compliance group within MDM. In the case of Jamf smart groups, this can be used to require up to date inventory check-in, OS versions, or any other attribute to to gatekeep certificate issuance - see [Compliance Group Membership](https://github.com/jedda/step-posture-connector#compliance-group-membership) below.
 
-See Usage Philosophy & Considerations below more details on using `step-posture-connector` to secure resources or services.
+See [Usage Philosophy & Considerations](https://github.com/jedda/step-posture-connector#usage-philosophy--considerations) below for more details on using `step-posture-connector` to secure resources or services.
 
 ## Providers
 
@@ -41,14 +41,13 @@ Ideally, next steps will include addition of new providers for posture & data en
 
 I've started creating a [Setup Guide](https://github.com/jedda/step-posture-connector/wiki/Setup-Guide) which should walk you through the steps of setting up `step-posture-connector` and starting to lookup and authorise attested devices. It's currently a little rough around the edges, but should be enough to get you started.
 
-If you'd like to report any security issues, [send me a DM on the MacAdmins slack](https://macadmins.slack.com/team/U1QABUHAR
-).
+If you'd like to report any security issues, [send me a DM on the MacAdmins slack](https://macadmins.slack.com/team/U1QABUHAR).
 
 ## Deployment
 
 ### Docker image (reccomended)
 
-Deployment via Docker is probably most simple and reccomended - particularly if you are already [running `step-ca` this way](https://hub.docker.com/r/smallstep/step-ca). All config can be done via environment variables as per the Configuration section below and a [docker-compose file](docker-compose.yml) is included in this repository.
+Deployment via Docker is probably most simple and reccomended - particularly if you are already [running `step-ca` this way](https://hub.docker.com/r/smallstep/step-ca). All config can be done via environment variables as per the Configuration section below and a [docker-compose file](docker/docker-compose.yml) is included in this repository.
 
 Releases of `step-posture-connector` [are available on Docker Hub as `jedda/step-posture-connector`](https://hub.docker.com/repository/docker/jedda/step-posture-connector).
 
@@ -62,7 +61,7 @@ Releases are [available for major platforms as compiled binaries here](https://g
 
 You can of course choose to download and build your own binaries or docker containers. `step-posture-connector` is [written in Go](https://go.dev/project) and can be run with a simple `go run main.go`.
 
-A [Dockerfile](Dockerfile) is also included should you wish to roll your own container variants.
+A [Dockerfile](docker/Dockerfile) is also included should you wish to roll your own container variants.
 
 ## Webhooks
 
@@ -158,4 +157,8 @@ Under my testing in the current implementations of Managed Device Attestation on
 
 Note that this "Device Provisioning UDID" is not the "Hardware UUID" (or UDID as reported to some MDMs), but instead the "Device Provisioning UDID" (viewable in macOS System Information/Report) which is not by default captured by MDM.
 
-When using MDM providers for matching, this means the Device Provisioning UDID isn't really a suitable candidate as a matching identifier, so for Jamf we currently support Device Serial Number only. I can't find a lot of documentation on this, so if i'm wrong here or there is a better way I'd love to be pointed in a better direction. 
+When using MDM providers for matching, this means the Device Provisioning UDID isn't really a suitable candidate as a matching identifier, so for Jamf we currently support Device Serial Number only. I can't find a lot of documentation on this, so if i'm wrong here or there is a better way I'd love to be pointed in a better direction.
+
+### Questions, Issues & Discussions
+
+Feel free to [start a discussion](https://github.com/jedda/step-posture-connector/discussions) or [create an issue](https://github.com/jedda/step-posture-connector/issues). You are also welcome to [DM me on the Mac Admins Slack](https://macadmins.slack.com/team/U1QABUHAR).
