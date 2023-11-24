@@ -5,9 +5,6 @@ ARG BUILDPLATFORM
 ARG TARGETOS
 ARG TARGETARCH
 
-ARG Version
-ARG GitCommit
-
 WORKDIR /build
 
 COPY go.mod go.sum ./
